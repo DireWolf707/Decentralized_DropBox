@@ -4,7 +4,7 @@ import Link from "next/link"
 
 const Header = () => {
   return (
-    <nav className="flex justify-between items-center p-4 mx-2 border-b-2 ">
+    <nav className="flex justify-between items-center p-4 mx-4 border-b-2 ">
       <Link href="/">
         <button className="text-xl font-bold">Title</button>
       </Link>
@@ -19,7 +19,7 @@ const Header = () => {
             className="absolute inset-x-3 -inset-y-1 blur-sm rounded-2xl bg-gradient-to-br from-pink-600 to bg-purple-600"
           ></motion.div>
           <div className="relative">
-            <ConnectButton moralisAuth={false} />
+            <ConnectButton />
           </div>
         </div>
       </div>
