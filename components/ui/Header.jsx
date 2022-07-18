@@ -1,19 +1,26 @@
 import { ConnectButton } from "web3uikit"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { useMoralis } from "react-moralis"
 
 const Header = () => {
+  const { isAuthenticated } = useMoralis()
   return (
     <nav className="flex justify-between items-center p-4 mx-4 border-b-2 ">
       <Link href="/">
         <button className="text-xl font-bold">Title</button>
       </Link>
 
-      <div>
+      <div className="flex items-center space-x-1">
+        {isAuthenticated && (
+          <Link href="/MyFiles">
+            <button className="shadow-inner drop-shadow shadow-slate-200 border rounded-lg p-2 hover:scale-110 duration-300">My Files</button>
+          </Link>
+        )}
         <div className="relative">
           <motion.div
             animate={{
-              scale: [1.05, 1, 1.05],
+              scale: [1.05, 1, 1.02],
               transition: { repeat: Infinity, duration: 2, repeatType: "mirror" },
             }}
             className="absolute inset-x-3 -inset-y-1 blur-sm rounded-2xl bg-gradient-to-br from-pink-600 to bg-purple-600"
