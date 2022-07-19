@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "moralis:cloud" : "moralis-admin-cli watch-cloud-folder --moralisSubdomain 9qzg0dcmaufq.usemoralis.com --autoSave 1 --moralisCloudfolder ./cloudFunctions"
+    "moralis:cloud" : "moralis-admin-cli watch-cloud-folder --autoSave 1 --moralisCloudfolder ./cloudFunctions"
   },
   "dependencies": {
     "@walletconnect/web3-provider": "^1.7.8",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
+    "dotenv": "^16.0.1",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.2",
     "postcss": "^8.4.14",
