@@ -8,13 +8,17 @@ const Header = () => {
   return (
     <nav className="flex justify-between items-center p-4 mx-4 border-b-2 ">
       <Link href="/">
-        <button className="text-xl font-bold">Title</button>
+        <button className="text-2xl font-bold hover:scale-105 duration-300">
+          <span className="bg-gradient-to-r from-blue-500 to-orange-400 bg-clip-text text-transparent">Decentralized Dropbox</span>
+        </button>
       </Link>
 
       <div className="flex items-center space-x-1">
         {isAuthenticated && (
           <Link href="/MyFiles">
-            <button className="shadow-inner drop-shadow shadow-slate-200 border rounded-lg p-2 hover:scale-110 duration-300">My Files</button>
+            <button className="shadow-inner drop-shadow shadow-slate-200 border rounded-lg p-2 hover:scale-110 duration-300">
+              My Files
+            </button>
           </Link>
         )}
         <div className="relative">
