@@ -16,7 +16,7 @@ const Border = ({ children, padding }) => {
     },
   }
   return (
-    <div className={`relative p-${padding}`}>
+    <div className={`relative ${padding}`}>
       {children}
       <motion.div
         variants={borderVariantsX}

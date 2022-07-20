@@ -32,7 +32,7 @@ const Signup = () => {
 
   return (
     <div className="w-4/5 md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto my-32">
-      <Border padding={"10"}>
+      <Border padding={"p-10"}>
         <form onSubmit={signup} className="flex flex-col space-y-2">
           <h1 className="text-center text-xl font-bold">Sign Up</h1>
           <label>
