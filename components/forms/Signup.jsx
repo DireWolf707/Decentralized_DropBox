@@ -6,7 +6,11 @@ const Signup = () => {
   const [username, setUsername] = useState("")
   const [storageAPI, setStorageAPI] = useState("")
   const { isUserUpdating, refetchUserData } = useMoralis()
-  const { fetch: createNewUser, isLoading } = useMoralisCloudFunction(
+  const {
+    fetch: createNewUser,
+    isLoading,
+    isFetching,
+  } = useMoralisCloudFunction(
     "createNewUser",
     {
       username,
@@ -53,7 +57,11 @@ const Signup = () => {
               type="text"
             />
           </label>
-          <button disabled={isLoading || isUserUpdating} className="w-full bg-blue-500 hover:bg-blue-800 hover:text-slate-300 p-1 rounded" type="submit">
+          <button
+            disabled={isLoading || isUserUpdating || isFetching}
+            className="w-full bg-blue-500 hover:bg-blue-800 hover:text-slate-300 p-1 rounded"
+            type="submit"
+          >
             Submit
           </button>
         </form>
