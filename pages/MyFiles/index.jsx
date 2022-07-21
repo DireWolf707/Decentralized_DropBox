@@ -1,9 +1,14 @@
+import Content from "../../components/ui/Content"
+import { useState } from "react"
 
-const Root = () => {
+const MyFiles = () => {
+  const [folderId, setFolderId] = useState(null)
   return (
-      <div>registered user</div>
+    <div>
+      <Content folderId={folderId} setFolderId={setFolderId} />
+    </div>
   )
 }
 
-Root.auth=true
-export default Root
+MyFiles.auth = true
+export default MyFiles
