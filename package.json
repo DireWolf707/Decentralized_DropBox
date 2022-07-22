@@ -10,6 +10,7 @@
     "moralis:cloud": "moralis-admin-cli watch-cloud-folder --autoSave 1 --moralisCloudfolder ./cloudFunctions"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
     "@walletconnect/web3-provider": "^1.7.8",
     "@web3auth/web3auth": "^1.1.1",
     "framer-motion": "^6.5.1",
