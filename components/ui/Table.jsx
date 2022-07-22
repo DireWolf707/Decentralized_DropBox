@@ -38,7 +38,7 @@ const columns = [
   },
 ]
 
-const Table = ({ data, setFolderId, contentLoading }) => {
+const Table = ({ data, setFolderId, contentLoading, fetchCurrFolder }) => {
   return (
     <>
       <DataTable
@@ -53,7 +53,8 @@ const Table = ({ data, setFolderId, contentLoading }) => {
         persistTableHead={true}
         fixedHeader={true}
         subHeader={true}
-        subHeaderComponent={<SubHeader />}
+        //
+        subHeaderComponent={<SubHeader setFolderId={setFolderId} fetchCurrFolder={fetchCurrFolder} />}
         highlightOnHover={true}
         pointerOnHover={true}
         theme="dark"

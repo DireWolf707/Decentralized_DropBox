@@ -1,13 +1,17 @@
 import Table from "./Table"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 
 import { getContent } from "../../hooks/getContent"
 
 const Content = ({ folderId, setFolderId }) => {
   const { fetchContent, data, loading: contentLoading } = getContent()
 
-  useEffect(() => {
+  const fetchCurrFolder = useCallback(() => {
     fetchContent(folderId)
+  }, [folderId])
+
+  useEffect(() => {
+    fetchCurrFolder()
   }, [folderId])
 
   return (
@@ -19,7 +23,7 @@ const Content = ({ folderId, setFolderId }) => {
           <div className="p-2 bg-gradient-to-br from-slate-200 to-indigo-500 rounded-xl">
             <div className="opacity-95 space-y-1 rounded-lg">
               {!data && <div className="text-3xl">Loading...</div>}
-              {data && <Table data={data} setFolderId={setFolderId} contentLoading={contentLoading} />}
+              {data && <Table data={data} setFolderId={setFolderId} contentLoading={contentLoading} fetchCurrFolder={fetchCurrFolder} />}
             </div>
           </div>
         </div>
