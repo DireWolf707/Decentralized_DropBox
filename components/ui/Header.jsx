@@ -6,7 +6,7 @@ import { useMoralis } from "react-moralis"
 const Header = () => {
   const { isAuthenticated } = useMoralis()
   return (
-    <nav className="flex justify-between items-center p-4 mx-4 border-b-2 ">
+    <nav className="flex justify-between items-center p-4 mx-2 border-b-2 bg-zinc-900 rounded-b-lg">
       <Link href="/">
         <button className="text-2xl font-bold hover:scale-105 duration-300">
           <span className="bg-gradient-to-r from-blue-500 to-orange-400 bg-clip-text text-transparent">Decentralized Dropbox</span>

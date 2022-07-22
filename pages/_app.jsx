@@ -5,7 +5,7 @@ import MoralisAuthCheck from "../components/auth/MoralisAuthCheck"
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div className="min-h-screen bg-zinc-900 text-white">
+    <div className="min-h-screen bg-zinc-800 text-white">
       <MoralisProvider serverUrl={process.env.NEXT_PUBLIC_SERVER_URL} appId={process.env.NEXT_PUBLIC_APP_ID}>
         <Header />
         {Component.auth ? (
