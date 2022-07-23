@@ -43,7 +43,7 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
     <>
       <DataTable
         columns={columns}
-        data={data.folders}
+        data={[...data.folders,...data.files]}
         onRowClicked={(row) => setFolderId(row._id)}
         title={<Header ancestors={data.ancestors} setFolderId={setFolderId} currFolder={{ _id: data.objectId, name: data.name }} />}
         expandableRowsComponent={Expanded}
