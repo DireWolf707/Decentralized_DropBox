@@ -125,11 +125,8 @@ Moralis.Cloud.define(
         project: {
           "ancestors._id": 1,
           "ancestors.name": 1,
-          user: 1,
-          parent: 1,
           name: 1,
           createdAt: 1,
-          updatedAt: 1,
         },
       },
       // unwind ancestors again
@@ -158,6 +155,34 @@ Moralis.Cloud.define(
           localField: "_id",
           foreignField: "parent",
           as: "folders",
+        },
+      },
+      // get files inside current folder
+      {
+        lookup: {
+          from: "File",
+          localField: "_id",
+          foreignField: "parent",
+          as: "files",
+        },
+      },
+      // select required fields in files and folders
+      {
+        project: {
+          "ancestors._id": 1,
+          "ancestors.name": 1,
+          name: 1,
+          createdAt: 1,
+          "folders._id": 1,
+          "folders.name": 1,
+          "folders._created_at": 1,
+          "files._id": 1,
+          "files.name": 1,
+          "files.type": 1,
+          "files.size": 1,
+          "files.cid": 1,
+          "files.favourite": 1,
+          "files._created_at": 1,
         },
       },
     ])
