@@ -194,3 +194,26 @@ Moralis.Cloud.define(
     requireUser: true,
   }
 )
+
+Moralis.Cloud.define(
+  "markFileAsFav",
+  async (req) => {
+    const logger = Moralis.Cloud.getLogger()
+    let { fileId } = req.params
+
+    logger.info("Fetching file!")
+    const fileQuery = new Moralis.Query("File")
+    fileQuery.equalTo("objectId", fileId)
+    fileQuery.equalTo("user", req.user.id)
+    const file = (await fileQuery.find())[0]
+    const marked = !file.attributes.favourite
+    file.set("favourite", marked)
+    await file.save()
+    logger.info("File marked as favourite changed !")
+    return marked
+  },
+  {
+    fields: ["fileId"],
+    requireUser: true,
+  }
+)
