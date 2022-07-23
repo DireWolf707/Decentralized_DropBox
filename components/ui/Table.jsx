@@ -5,6 +5,7 @@ import SubHeader from "../table/SubHeader"
 import NoData from "../table/NoData"
 import { useMemo } from "react"
 import Favourite from "../table/column/Favourite"
+import { DotsVerticalIcon } from "@heroicons/react/solid"
 
 const bytesToSize = (bytes) => {
   var sizes = ["Bytes", "KB", "MB", "GB", "TB"]
@@ -70,7 +71,14 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
         sortable: true,
         width: "140px",
         wrap: true,
-      }
+      },
+      // options
+      {
+        name: "Options",
+        selector: (row) => <DotsVerticalIcon className="h-5 w-4" role="button" />,
+        width: "100px",
+        button: true,
+      },
     ],
     []
   )
