@@ -1,6 +1,5 @@
 import DataTable from "react-data-table-component"
 import Header from "../table/Header"
-import Expanded from "../table/Expanded"
 import SubHeader from "../table/SubHeader"
 import NoData from "../table/NoData"
 import { useMemo } from "react"
