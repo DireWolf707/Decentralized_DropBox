@@ -24,11 +24,34 @@ const SubHeader = ({ setFolderId, folderId, fetchCurrFolder }) => {
           <HomeIcon onClick={() => setFolderId(user.attributes.rootFolderId)} className="h-7 w-7 text-green-300" role="button" />
         </motion.div>
         <motion.div whileTap={{ rotateZ: -360 }}>
-          <RefreshIcon onClick={() => fetchCurrFolder()} className="h-7 w-7 text-indigo-400" role="button" />
+          <RefreshIcon onClick={() => fetchCurrFolder()} className="h-7 w-7 text-indigo-300" role="button" />
         </motion.div>
-        <motion.div whileTap={{ scale: 0.75 }}>
-          <DocumentTextIcon className="h-7 w-7 text-slate-200" role="button" />
-        </motion.div>
+
+        <Popover className="relative">
+          <Popover.Button>
+            <motion.div whileTap={{ scale: 0.75 }}>
+              <DocumentTextIcon className="h-7 w-7 text-slate-300" role="button" />
+            </motion.div>
+          </Popover.Button>
+
+          <Popover.Panel className="absolute -left-1 z-10">
+            {({ close }) => (
+              <div className="flex items-center space-x-2 bg-zinc-500 py-2 p-3 border rounded-full border-zinc-900">
+                <input
+                  type="file"
+                  className="text-sm file:mr-5 file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-violet-50 file:text-violet-700
+                  hover:file:bg-violet-100"
+                />
+                <motion.div whileTap={{ scale: 0.75 }}>
+                  <DocumentAddIcon onClick={() => {close()}} className="h-9 w-9 text-white bg-slate-400 p-1 rounded-full" role="button" />
+                </motion.div>
+              </div>
+            )}
+          </Popover.Panel>
+        </Popover>
 
         <Popover className="relative">
           <Popover.Button>
@@ -47,7 +70,7 @@ const SubHeader = ({ setFolderId, folderId, fetchCurrFolder }) => {
                   className="text-blue-600 p-1 rounded outline-none"
                 />
                 <motion.div whileTap={{ scale: 0.75 }}>
-                  <FolderAddIcon onClick={()=>addNewFolder(close)} className="h-7 w-7" role="button" />
+                  <FolderAddIcon onClick={() => addNewFolder(close)} className="h-7 w-7 text-yellow-300" role="button" />
                 </motion.div>
               </div>
             )}
