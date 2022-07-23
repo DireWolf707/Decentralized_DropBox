@@ -62,6 +62,38 @@ Moralis.Cloud.define(
 )
 
 Moralis.Cloud.define(
+  "createNewFile",
+  async (req) => {
+    const logger = Moralis.Cloud.getLogger()
+    const { fileMetaData, parentId } = req.params
+
+    logger.info("Creating new File!")
+    // getting parent folder from id (to check if user really owner of the folder)
+    const parentQuery = new Moralis.Query("Folder")
+    parentQuery.equalTo("objectId", parentId)
+    parentQuery.equalTo("user", req.user.id)
+    parentQuery.select("name")
+    const parentFolder = (await parentQuery.find())[0]
+    // creating file
+    const File = Moralis.Object.extend("File")
+    const file = new File()
+    file.set("name", fileMetaData.name)
+    file.set("type", fileMetaData.type)
+    file.set("size", fileMetaData.size)
+    file.set("cid", fileMetaData.cid)
+    file.set("favourite", false)
+    file.set("parent", parentFolder.id) // same as parentId
+    file.set("user", req.user.id)
+    await file.save()
+    logger.info("New file created!")
+  },
+  {
+    fields: ["fileMetaData", "parentId"],
+    requireUser: true,
+  }
+)
+
+Moralis.Cloud.define(
   "getContent",
   async (req) => {
     const logger = Moralis.Cloud.getLogger()
