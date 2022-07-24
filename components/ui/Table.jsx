@@ -83,36 +83,34 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
   )
 
   return (
-    <>
-      <DataTable
-        columns={columns}
-        data={[...data.folders, ...data.files]}
-        title={<Header ancestors={data.ancestors} setFolderId={setFolderId} currFolder={{ _id: data.objectId, name: data.name }} />}
-        // expandableRowsComponent={Expanded}
-        // expandableRowsComponentProps
-        // expandableRows={true}
-        noDataComponent={<NoData />}
-        persistTableHead={true}
-        fixedHeader={true}
-        subHeader={true}
-        //subHeaderWrap={true}
-        subHeaderComponent={<SubHeader folderId={folderId} setFolderId={setFolderId} fetchCurrFolder={fetchCurrFolder} />}
-        highlightOnHover={true}
-        //pointerOnHover={true}
-        theme="dark"
-        keyField={"_id"}
-        progressPending={contentLoading}
-        //progressComponent
+    <DataTable
+      columns={columns}
+      data={[...data.folders, ...data.files]}
+      title={<Header ancestors={data.ancestors} setFolderId={setFolderId} currFolder={{ _id: data.objectId, name: data.name }} />}
+      // expandableRowsComponent={Expanded}
+      // expandableRowsComponentProps
+      // expandableRows={true}
+      noDataComponent={<NoData />}
+      persistTableHead={true}
+      fixedHeader={true}
+      subHeader={true}
+      //subHeaderWrap={true}
+      subHeaderComponent={<SubHeader folderId={folderId} setFolderId={setFolderId} fetchCurrFolder={fetchCurrFolder} />}
+      highlightOnHover={true}
+      //pointerOnHover={true}
+      theme="dark"
+      keyField={"_id"}
+      progressPending={contentLoading}
+      //progressComponent
 
-        // noContextMenu={false}
-        // contextMessage
-        // contextActions
+      // noContextMenu={false}
+      // contextMessage
+      // contextActions
 
-        //selectableRows={true}
-        //selectableRowsHighlight={true}
-        //selectableRowsRadio={"radio"}
-      />
-    </>
+      //selectableRows={true}
+      //selectableRowsHighlight={true}
+      //selectableRowsRadio={"radio"}
+    />
   )
 }
 

@@ -5,11 +5,7 @@ import { useMoralis } from "react-moralis"
 const MyFiles = () => {
   const { user } = useMoralis()
   const [folderId, setFolderId] = useState(user.attributes.rootFolderId)
-  return (
-    <div>
-      <Content folderId={folderId} setFolderId={setFolderId} />
-    </div>
-  )
+  return <Content folderId={folderId} setFolderId={setFolderId} />
 }
 
 MyFiles.auth = true
