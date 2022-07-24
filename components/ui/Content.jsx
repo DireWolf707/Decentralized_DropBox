@@ -1,7 +1,7 @@
 import Table from "./Table"
 import { useCallback, useEffect } from "react"
-
 import { getContent } from "../../hooks/getContent"
+import Loading from "../animation/Loading"
 
 const Content = ({ folderId, setFolderId }) => {
   const { fetchContent, data, loading: contentLoading } = getContent()
@@ -21,7 +21,11 @@ const Content = ({ folderId, setFolderId }) => {
       <div className="w-4/5">
         <div className="p-2 bg-gradient-to-br from-slate-200 to-indigo-500 rounded-xl">
           <div className="opacity-95 space-y-1 rounded-lg">
-            {!data && <div className="text-3xl">Loading...</div>}
+            {!data && (
+              <div className="flex justify-center p-20">
+                <Loading />
+              </div>
+            )}
             {data && (
               <Table
                 data={data}
