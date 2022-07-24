@@ -5,6 +5,7 @@ import NoData from "../table/NoData"
 import { useMemo } from "react"
 import Favourite from "../table/column/Favourite"
 import { DotsVerticalIcon } from "@heroicons/react/solid"
+import ProgressComponent from "../table/ProgressComponent"
 
 const bytesToSize = (bytes) => {
   var sizes = ["Bytes", "KB", "MB", "GB", "TB"]
@@ -91,9 +92,6 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
       columns={columns}
       data={[...data.folders, ...data.files]}
       title={<Header ancestors={data.ancestors} setFolderId={setFolderId} currFolder={{ _id: data.objectId, name: data.name }} />}
-      // expandableRowsComponent={Expanded}
-      // expandableRowsComponentProps
-      // expandableRows={true}
       noDataComponent={<NoData />}
       persistTableHead={true}
       fixedHeader={true}
@@ -101,11 +99,10 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
       //subHeaderWrap={true}
       subHeaderComponent={<SubHeader folderId={folderId} setFolderId={setFolderId} fetchCurrFolder={fetchCurrFolder} />}
       highlightOnHover={true}
-      //pointerOnHover={true}
       theme="dark"
       keyField={"_id"}
       progressPending={contentLoading}
-      //progressComponent
+      progressComponent={<ProgressComponent />}
 
       // noContextMenu={false}
       // contextMessage
