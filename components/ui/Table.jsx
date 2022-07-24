@@ -37,6 +37,7 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
           )
         },
         sortable: true,
+        sortFunction: (a, b) => a.name.localeCompare(b.name),
         minWidth: "400px",
         maxWidth: "500px",
       },
@@ -44,7 +45,6 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
       {
         name: "Size",
         selector: (row) => <div className="">{row.size ? bytesToSize(row.size) : ""}</div>,
-        sortable: true,
         width: "120px",
         center: true,
       },
@@ -52,6 +52,7 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
       {
         name: "Created At",
         selector: (row) => <div className="">{row._created_at.toLocaleDateString()}</div>,
+        sortFunction: (a, b) => a._created_at.getTime() > b._created_at.getTime(),
         sortable: true,
         width: "120px",
       },
@@ -59,7 +60,6 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
       {
         name: "Favourite",
         selector: (row) => <Favourite row={row} />,
-        sortable: true,
         width: "110px",
         button: true,
       },
@@ -68,6 +68,10 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
         name: "Type",
         selector: (row) => <div className="bg-green-600 rounded-full px-2 py-0.5">{row.type ? row.type : "Folder"}</div>,
         sortable: true,
+        sortFunction: (a, b) => {
+          if (a.type && b.type) return a.type.localeCompare(b.type)
+          return true
+        },
         width: "140px",
         wrap: true,
       },
