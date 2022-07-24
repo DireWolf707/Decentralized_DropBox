@@ -4,6 +4,8 @@ import { useState } from "react"
 import { markFileAsFav } from "../../../hooks/markFileAsFav"
 
 const Favourite = ({ row }) => {
+  if (!row.type) return ""
+
   const { fetch } = markFileAsFav()
   const [marked, setMarked] = useState(row.favourite)
 
@@ -16,14 +18,10 @@ const Favourite = ({ row }) => {
     }
   }
 
-  return row.type ? (
-    marked ? (
-      <StarIconSolid onClick={toggleFav} className="h-5 w-5" role="button" />
-    ) : (
-      <StarIconOutline onClick={toggleFav} className="h-5 w-5" role="button" />
-    )
+  return marked ? (
+    <StarIconSolid onClick={toggleFav} className="h-5 w-5" role="button" />
   ) : (
-    ""
+    <StarIconOutline onClick={toggleFav} className="h-5 w-5" role="button" />
   )
 }
 
