@@ -18,10 +18,16 @@ const Sidebar = () => {
         ) : favFiles.length == 0 ? (
           <div className="text-center p-3">Files marked as favourite will be shown here!</div>
         ) : (
-          <ul role="list" className="marker:text-sky-400 space-y-2 p-3">
+          <ul className="marker:text-sky-400 list-disc space-y-2 p-3">
             {favFiles.map((f) => (
-              <li key={f.id + "-fav"} className="">
-                {f.attributes.name}
+              <li key={f.id}>
+                <a
+                  href={`https://${f.attributes.cid}.ipfs.dweb.link/?filename=${f.attributes.name}`}
+                  target="_blank"
+                  className="text-sm tracking-wide hover:text-blue-400"
+                >
+                  {f.attributes.name}
+                </a>
               </li>
             ))}
           </ul>
