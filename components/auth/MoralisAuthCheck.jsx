@@ -5,7 +5,7 @@ import ConnectMetamask from "../ui/ConnectMetamask"
 import Loading from "../animation/Loading"
 
 const MoralisAuthCheck = ({ children }) => {
-  const { isUnauthenticated, user, Moralis, logout, isInitializing, isLoggingOut } = useMoralis()
+  const { isUnauthenticated, user, Moralis, logout, isInitializing, isLoggingOut, isWeb3Enabled } = useMoralis()
 
   useEffect(() => {
     const unsub = Moralis.onAccountChanged(async (account) => {
@@ -20,7 +20,7 @@ const MoralisAuthCheck = ({ children }) => {
         <Loading />
       </div>
     )
-  if (isUnauthenticated || !user) return <ConnectMetamask />
+  if (isUnauthenticated || !isWeb3Enabled) return <ConnectMetamask />
   if (!user.attributes.storageAPI) return <SignUp />
   return children
 }
