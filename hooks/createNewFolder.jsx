@@ -25,9 +25,9 @@ export const createNewFolder = () => {
         }),
       onError: (err) =>
         dispatch({
-          type: "warning",
+          type: "error",
           message: "Something went wrong",
-          title: "Warning !",
+          title: "Error !",
           position: "topR",
         }),
       params: { name, parentId },
