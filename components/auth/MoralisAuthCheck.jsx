@@ -3,13 +3,23 @@ import SignUp from "../forms/Signup"
 import { useEffect } from "react"
 import ConnectMetamask from "../ui/ConnectMetamask"
 import Loading from "../animation/Loading"
+import { useNotification } from "web3uikit"
 
 const MoralisAuthCheck = ({ children }) => {
+  const dispatch = useNotification()
   const { isUnauthenticated, user, Moralis, logout, isInitializing, isLoggingOut, isWeb3Enabled } = useMoralis()
 
   useEffect(() => {
     const unsub = Moralis.onAccountChanged(async (account) => {
-      if (account) await logout()
+      if (account) {
+        await logout()
+      }
+      dispatch({
+        type: "info",
+        message: "Please connect wallet again!",
+        title: "Account Changed !",
+        position: "topR",
+      })
     })
     return unsub
   }, [])
