@@ -2,6 +2,7 @@ import "../styles/globals.css"
 import Header from "../components/ui/Header"
 import { MoralisProvider } from "react-moralis"
 import MoralisAuthCheck from "../components/auth/MoralisAuthCheck"
+import { NotificationProvider } from "web3uikit"
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -9,9 +10,11 @@ function MyApp({ Component, pageProps }) {
       <MoralisProvider serverUrl={process.env.NEXT_PUBLIC_SERVER_URL} appId={process.env.NEXT_PUBLIC_APP_ID}>
         <Header />
         {Component.auth ? (
-          <MoralisAuthCheck>
-            <Component {...pageProps} />
-          </MoralisAuthCheck>
+          <NotificationProvider>
+            <MoralisAuthCheck>
+              <Component {...pageProps} />
+            </MoralisAuthCheck>
+          </NotificationProvider>
         ) : (
           <Component {...pageProps} />
         )}
