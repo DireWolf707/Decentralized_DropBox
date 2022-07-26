@@ -1,44 +1,24 @@
-import { useMoralis, useMoralisCloudFunction } from "react-moralis"
+import { createNewUser } from "../../hooks/createNewUser"
 import { useState } from "react"
 import Border from "../animation/Border"
 
 const Signup = () => {
   const [username, setUsername] = useState("")
   const [storageAPI, setStorageAPI] = useState("")
-  const { isUserUpdating, refetchUserData } = useMoralis()
-  const {
-    fetch: createNewUser,
-    isLoading,
-    isFetching,
-  } = useMoralisCloudFunction(
-    "createNewUser",
-    {
-      username,
-      storageAPI,
-    },
-    { autoFetch: false }
-  )
-
-  const signup = async (e) => {
-    e.preventDefault()
-    try {
-      // verify storage api key
-      await createNewUser({
-        onError: (err) => console.log(err),
-        onSuccess: (data) => console.log(data),
-      })
-      await refetchUserData()
-    } catch (error) {
-      // dispatch notification
-      console.log(error)
-    }
-  }
+  const { signup, loading } = createNewUser()
 
   return (
     <div className="w-4/5 md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto my-32">
       <Border padding={"p-10"}>
-        <form onSubmit={signup} className="flex flex-col space-y-2">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            signup(username, storageAPI)
+          }}
+          className="flex flex-col space-y-2"
+        >
           <h1 className="text-center text-xl font-bold">Sign Up</h1>
+
           <label>
             <span className="block mb-1">Username :</span>
             <input
@@ -48,6 +28,7 @@ const Signup = () => {
               type="text"
             />
           </label>
+
           <label>
             <span className="block mb-1">Storage API Key :</span>
             <input
@@ -57,11 +38,8 @@ const Signup = () => {
               type="text"
             />
           </label>
-          <button
-            disabled={isLoading || isUserUpdating || isFetching}
-            className="w-full bg-blue-500 hover:bg-blue-800 hover:text-slate-300 p-1 rounded"
-            type="submit"
-          >
+
+          <button disabled={loading} className="w-full bg-blue-500 hover:bg-blue-800 disabled:bg-blue-900 hover:text-slate-300 p-1 rounded" type="submit">
             Submit
           </button>
         </form>

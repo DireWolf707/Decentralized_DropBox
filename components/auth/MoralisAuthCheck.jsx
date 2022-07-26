@@ -20,7 +20,7 @@ const MoralisAuthCheck = ({ children }) => {
         <Loading />
       </div>
     )
-  if (isUnauthenticated || !isWeb3Enabled) return <ConnectMetamask />
+  if (isUnauthenticated || !isWeb3Enabled || !user) return <ConnectMetamask />
   if (!user.attributes.storageAPI) return <SignUp />
   return children
 }
