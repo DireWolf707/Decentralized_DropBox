@@ -4,18 +4,15 @@ import { useState } from "react"
 import { markFileAsFav } from "../../../hooks/markFileAsFav"
 
 const Favourite = ({ row }) => {
+  // return blank string if folder
   if (!row.type) return ""
 
-  const { fetch } = markFileAsFav()
+  const { newFavMark } = markFileAsFav()
   const [marked, setMarked] = useState(row.favourite)
 
   const toggleFav = async () => {
-    try {
-      const newMarked = await fetch({ params: { fileId: row._id } })
-      setMarked(newMarked)
-    } catch (err) {
-      console.log(err)
-    }
+    const newMarked = await newFavMark(row._id)
+    setMarked(newMarked)
   }
 
   return marked ? (
