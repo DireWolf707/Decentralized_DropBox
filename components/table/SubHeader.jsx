@@ -25,6 +25,7 @@ const SubHeader = ({ setFolderId, folderId, fetchCurrFolder }) => {
     close()
     setSelectedFile(null)
     await addFile(selectedFile, folderId)
+    await fetchCurrFolder()
   }
 
   return (
