@@ -1,12 +1,19 @@
 import { useMoralisCloudFunction } from "react-moralis"
+import { useNotification } from "web3uikit"
 
 export const getContent = () => {
+  const dispatch = useNotification()
   const { fetch, isLoading, isFetching, data } = useMoralisCloudFunction("getContent", {}, { autoFetch: false })
 
   const fetchContent = async (folderId) => {
     await fetch({
-      onSuccess: (data) => console.log("content fetched"),
-      onError: (err) => console.log(err),
+      onError: (err) =>
+        dispatch({
+          type: "error",
+          message: "Please reload this page",
+          title: "Something went wrong!",
+          position: "topR",
+        }),
       params: { folderId },
     })
   }
