@@ -1,6 +1,5 @@
-import { useMoralis } from "react-moralis"
 import { Web3Storage } from "web3.storage"
-import { useMoralisCloudFunction } from "react-moralis"
+import { useMoralisCloudFunction, useMoralis } from "react-moralis"
 import { useNotification } from "web3uikit"
 
 export const createNewFile = () => {
