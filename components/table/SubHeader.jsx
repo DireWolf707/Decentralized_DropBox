@@ -2,17 +2,15 @@ import { createNewFolder } from "../../hooks/createNewFolder"
 import { createNewFile } from "../../hooks/createNewFile"
 import { useState } from "react"
 import { FolderAddIcon, RefreshIcon, HomeIcon, DocumentAddIcon, FolderIcon, DocumentTextIcon } from "@heroicons/react/solid"
-import { useMoralis } from "react-moralis"
 import { motion } from "framer-motion"
 import { Popover } from "@headlessui/react"
 
-const SubHeader = ({ setFolderId, folderId, fetchCurrFolder }) => {
+const SubHeader = ({ setFolderId, folderId, fetchCurrFolder, rootFolderId }) => {
   const [newFolderName, setNewFolderName] = useState("")
   const [selectedFile, setSelectedFile] = useState(null)
 
   const { addFolder } = createNewFolder()
   const { addFile } = createNewFile()
-  const { user } = useMoralis()
 
   const addNewFolder = async (close) => {
     close()
@@ -29,14 +27,15 @@ const SubHeader = ({ setFolderId, folderId, fetchCurrFolder }) => {
   return (
     <div className="flex justify-between w-full">
       <div className="flex item-center space-x-2">
+        {/* home */}
         <motion.div whileTap={{ scale: 0.75 }}>
-          <HomeIcon onClick={() => setFolderId(user.attributes.rootFolderId)} className="h-7 w-7 text-green-300" role="button" />
+          <HomeIcon onClick={() => setFolderId(rootFolderId)} className="h-7 w-7 text-green-300" role="button" />
         </motion.div>
-
+        {/* refresh */}
         <motion.div whileTap={{ rotateZ: -360 }}>
           <RefreshIcon onClick={() => fetchCurrFolder()} className="h-7 w-7 text-indigo-300" role="button" />
         </motion.div>
-
+        {/* new file */}
         <Popover className="relative">
           <Popover.Button>
             <motion.div whileTap={{ scale: 0.75 }}>
@@ -67,7 +66,7 @@ const SubHeader = ({ setFolderId, folderId, fetchCurrFolder }) => {
             )}
           </Popover.Panel>
         </Popover>
-
+        {/* new folder  */}
         <Popover className="relative">
           <Popover.Button>
             <motion.div whileTap={{ scale: 0.75 }}>

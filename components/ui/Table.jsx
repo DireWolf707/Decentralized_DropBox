@@ -1,11 +1,14 @@
+import { useMoralis } from "react-moralis"
+import { getContent } from "../../hooks/getContent"
+import { useMemo, useCallback, useEffect, useState } from "react"
+import { DotsVerticalIcon } from "@heroicons/react/solid"
 import DataTable from "react-data-table-component"
 import Header from "../table/Header"
 import SubHeader from "../table/SubHeader"
 import NoData from "../table/NoData"
-import { useMemo } from "react"
 import Favourite from "../table/column/Favourite"
-import { DotsVerticalIcon } from "@heroicons/react/solid"
 import ProgressComponent from "../table/ProgressComponent"
+import Loading from "../animation/Loading"
 
 const bytesToSize = (bytes) => {
   var sizes = ["Bytes", "KB", "MB", "GB", "TB"]
@@ -14,7 +17,19 @@ const bytesToSize = (bytes) => {
   return Math.round(bytes / Math.pow(1024, i), 2) + " " + sizes[i]
 }
 
-const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder }) => {
+const Table = () => {
+  const { user } = useMoralis()
+  const [rootFolderId, _] = useState(user.attributes.rootFolderId)
+  const [folderId, setFolderId] = useState(rootFolderId)
+
+  const { fetchContent, data, loading: contentLoading } = getContent()
+
+  const fetchCurrFolder = useCallback(() => fetchContent(folderId), [folderId])
+
+  useEffect(() => {
+    fetchCurrFolder()
+  }, [folderId])
+
   const columns = useMemo(
     () => [
       // name
@@ -88,30 +103,41 @@ const Table = ({ data, setFolderId, folderId, contentLoading, fetchCurrFolder })
   )
 
   return (
-    <DataTable
-      columns={columns}
-      data={[...data.folders, ...data.files]}
-      title={<Header ancestors={data.ancestors} setFolderId={setFolderId} currFolder={{ _id: data.objectId, name: data.name }} />}
-      noDataComponent={<NoData />}
-      persistTableHead={true}
-      fixedHeader={true}
-      subHeader={true}
-      //subHeaderWrap={true}
-      subHeaderComponent={<SubHeader folderId={folderId} setFolderId={setFolderId} fetchCurrFolder={fetchCurrFolder} />}
-      highlightOnHover={true}
-      theme="dark"
-      keyField={"_id"}
-      progressPending={contentLoading}
-      progressComponent={<ProgressComponent />}
+    <>
+      {!data && (
+        <div className="flex justify-center p-24">
+          <Loading />
+        </div>
+      )}
+      {data && (
+        <DataTable
+          columns={columns}
+          data={[...data.folders, ...data.files]}
+          title={<Header ancestors={data.ancestors} setFolderId={setFolderId} currFolder={{ _id: data.objectId, name: data.name }} />}
+          noDataComponent={<NoData />}
+          persistTableHead={true}
+          fixedHeader={true}
+          subHeader={true}
+          //subHeaderWrap={true}
+          subHeaderComponent={
+            <SubHeader folderId={folderId} setFolderId={setFolderId} rootFolderId={rootFolderId} fetchCurrFolder={fetchCurrFolder} />
+          }
+          highlightOnHover={true}
+          theme="dark"
+          keyField={"_id"}
+          progressPending={contentLoading}
+          progressComponent={<ProgressComponent />}
 
-      // noContextMenu={false}
-      // contextMessage
-      // contextActions
+          // noContextMenu={false}
+          // contextMessage
+          // contextActions
 
-      //selectableRows={true}
-      //selectableRowsHighlight={true}
-      //selectableRowsRadio={"radio"}
-    />
+          //selectableRows={true}
+          //selectableRowsHighlight={true}
+          //selectableRowsRadio={"radio"}
+        />
+      )}
+    </>
   )
 }
 
