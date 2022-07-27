@@ -1,9 +1,13 @@
+import { useState } from "react"
 import { motion } from "framer-motion"
-import { RefreshIcon, HomeIcon } from "@heroicons/react/solid"
+import { RefreshIcon, HomeIcon, DocumentSearchIcon } from "@heroicons/react/solid"
 import NewFile from "./subheaderButton/NewFile"
 import NewFolder from "./subheaderButton/NewFolder"
+import Findfile from "./subheaderButton/FindFile"
 
 const SubHeader = ({ setFolderId, folderId, fetchCurrFolder, rootFolderId }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <div className="flex item-center space-x-2">
       {/* home */}
@@ -18,6 +22,12 @@ const SubHeader = ({ setFolderId, folderId, fetchCurrFolder, rootFolderId }) => 
       <NewFile folderId={folderId} fetchCurrFolder={fetchCurrFolder} />
       {/* new folder  */}
       <NewFolder folderId={folderId} fetchCurrFolder={fetchCurrFolder} />
+      {/* find file */}
+      <motion.div whileTap={{ scale: 0.75 }}>
+        <DocumentSearchIcon onClick={() => setIsModalOpen(true)} className="h-7 w-7 text-pink-200" role="button" />
+      </motion.div>
+      <Findfile isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+      {/* modal rendered at root node */}
     </div>
   )
 }
