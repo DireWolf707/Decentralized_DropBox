@@ -118,10 +118,11 @@ const Table = () => {
           persistTableHead={true}
           fixedHeader={true}
           subHeader={true}
-          //subHeaderWrap={true}
+          subHeaderWrap={true}
           subHeaderComponent={
             <SubHeader folderId={folderId} setFolderId={setFolderId} rootFolderId={rootFolderId} fetchCurrFolder={fetchCurrFolder} />
           }
+          subHeaderAlign="left"
           highlightOnHover={true}
           theme="dark"
           keyField={"_id"}
