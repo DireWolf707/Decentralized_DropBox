@@ -17,15 +17,13 @@ const SubHeader = ({ setFolderId, folderId, fetchCurrFolder }) => {
   const addNewFolder = async (close) => {
     close()
     setNewFolderName("")
-    await addFolder(newFolderName, folderId)
-    await fetchCurrFolder()
+    await addFolder(newFolderName, folderId, fetchCurrFolder)
   }
 
   const addNewFile = async (close) => {
     close()
     setSelectedFile(null)
-    await addFile(selectedFile, folderId)
-    await fetchCurrFolder()
+    await addFile(selectedFile, folderId, fetchCurrFolder)
   }
 
   return (

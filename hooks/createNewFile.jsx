@@ -37,7 +37,7 @@ export const createNewFile = () => {
     return cid
   }
 
-  const addFile = async (file, parentId) => {
+  const addFile = async (file, parentId, refreshFxn) => {
     // check if file exists
     if (!file)
       return dispatch({
@@ -58,13 +58,15 @@ export const createNewFile = () => {
       }
       // saving metadata on db
       await fetch({
-        onSuccess: () =>
+        onSuccess: async () => {
           dispatch({
             type: "success",
             message: "File uploaded successfully",
             title: "Success !",
             position: "topR",
-          }),
+          })
+          await refreshFxn()
+        },
         onError: (err) =>
           dispatch({
             type: "error",

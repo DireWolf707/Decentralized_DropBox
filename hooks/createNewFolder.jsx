@@ -5,7 +5,7 @@ export const createNewFolder = () => {
   const dispatch = useNotification()
   const { fetch, isLoading, isFetching } = useMoralisCloudFunction("createNewFolder", {}, { autoFetch: false })
 
-  const addFolder = async (name, parentId) => {
+  const addFolder = async (name, parentId, refreshFxn) => {
     // validate folder name
     if (name.length == 0)
       return dispatch({
@@ -16,13 +16,15 @@ export const createNewFolder = () => {
       })
     // call cloud function to create folder
     await fetch({
-      onSuccess: () =>
+      onSuccess: async () => {
         dispatch({
           type: "success",
           message: "New folder created successfully",
           title: "Success !",
           position: "topR",
-        }),
+        })
+        await refreshFxn()
+      },
       onError: (err) =>
         dispatch({
           type: "error",
