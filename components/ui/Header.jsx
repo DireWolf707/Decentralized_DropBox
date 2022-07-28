@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useMoralis } from "react-moralis"
 
 const Header = () => {
-  const { isAuthenticated } = useMoralis()
+  const { isAuthenticated, isWeb3Enabled, user } = useMoralis()
   return (
     <nav className="flex justify-between items-center p-4 mx-2 border-b-2 bg-zinc-900 rounded-b-lg">
       <Link href="/">
@@ -13,14 +13,21 @@ const Header = () => {
         </button>
       </Link>
 
-      <div className="flex items-center space-x-1">
-        {isAuthenticated && (
+      <div className="flex items-center">
+        {isAuthenticated && isWeb3Enabled && (
+          <Link href="/profile">
+            <button className="text-lg mr-3 text-indigo-200 hover:scale-110 duration-300">{user.attributes.username}</button>
+          </Link>
+        )}
+
+        {isAuthenticated && isWeb3Enabled && (
           <Link href="/MyFiles">
             <button className="shadow-inner drop-shadow shadow-slate-200 border rounded-lg p-2 hover:scale-110 duration-300">
               My Files
             </button>
           </Link>
         )}
+
         <div className="relative">
           <motion.div
             animate={{
