@@ -217,3 +217,56 @@ Moralis.Cloud.define(
     requireUser: true,
   }
 )
+
+Moralis.Cloud.define(
+  "findFiles",
+  async (req) => {
+    const logger = Moralis.Cloud.getLogger()
+    let { fileName } = req.params
+
+    logger.info("Fetching files!")
+    const query = new Moralis.Query("File")
+    const res = await query.aggregate([
+      // get all files of user matching query string
+      { match: { user: req.user.id, $text: { $search: fileName } } },
+      // select required fields
+      {
+        project: {
+          name: 1,
+          cid: 1,
+          parent: 1,
+        },
+      },
+      // get parent folder of all files
+      {
+        lookup: {
+          from: "Folder",
+          localField: "parent",
+          foreignField: "_id",
+          as: "parent",
+        },
+      },
+      // unwind parent array [1] into object
+      {
+        unwind: {
+          path: "$parent",
+        },
+      },
+      // select required fields
+      {
+        project: {
+          name: 1,
+          cid: 1,
+          "parent._id": 1,
+          "parent.name": 1,
+        },
+      },
+    ])
+    logger.info("Fetching done!")
+    return res
+  },
+  {
+    fields: ["fileName"],
+    requireUser: true,
+  }
+)
