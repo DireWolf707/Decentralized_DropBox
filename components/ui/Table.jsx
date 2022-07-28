@@ -21,10 +21,11 @@ const Table = () => {
   const { user } = useMoralis()
   const [rootFolderId, _] = useState(user.attributes.rootFolderId)
   const [folderId, setFolderId] = useState(rootFolderId)
+  const [data, setData] = useState()
 
-  const { fetchContent, data, loading: contentLoading } = getContent()
+  const { fetchContent, loading: contentLoading } = getContent()
 
-  const fetchCurrFolder = useCallback(() => fetchContent(folderId), [folderId])
+  const fetchCurrFolder = useCallback(async () => setData(await fetchContent(folderId)), [folderId])
 
   useEffect(() => {
     fetchCurrFolder()
