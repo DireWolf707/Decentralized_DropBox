@@ -26,7 +26,7 @@ const SubHeader = ({ setFolderId, folderId, fetchCurrFolder, rootFolderId }) => 
       <motion.div whileTap={{ scale: 0.75 }}>
         <DocumentSearchIcon onClick={() => setIsModalOpen(true)} className="h-7 w-7 text-pink-200" role="button" />
       </motion.div>
-      <Findfile isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+      <Findfile isOpen={isModalOpen} setIsOpen={setIsModalOpen} setFolderId={setFolderId} />
       {/* modal rendered at root node */}
     </div>
   )
