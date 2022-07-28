@@ -14,13 +14,13 @@ const Header = () => {
       </Link>
 
       <div className="flex items-center">
-        {isAuthenticated && isWeb3Enabled && (
+        {isWeb3Enabled && isAuthenticated && user.attributes.rootFolderId && (
           <Link href="/profile">
             <button className="text-lg mr-3 text-indigo-200 hover:scale-110 duration-300">{user.attributes.username}</button>
           </Link>
         )}
 
-        {isAuthenticated && isWeb3Enabled && (
+        {isWeb3Enabled && isAuthenticated && (
           <Link href="/MyFiles">
             <button className="shadow-inner drop-shadow shadow-slate-200 border rounded-lg p-2 hover:scale-110 duration-300">
               My Files
