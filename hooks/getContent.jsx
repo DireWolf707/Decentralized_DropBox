@@ -6,7 +6,7 @@ export const getContent = () => {
   const { fetch, isLoading, isFetching, data } = useMoralisCloudFunction("getContent", {}, { autoFetch: false })
 
   const fetchContent = async (folderId) => {
-    await fetch({
+    return await fetch({
       onError: (err) =>
         dispatch({
           type: "error",
