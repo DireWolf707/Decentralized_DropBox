@@ -27,7 +27,7 @@ Moralis.Cloud.define(
     user.setUsername(username)
     user.set("storageAPI", storageAPI)
     user.set("rootFolderId", rootFolder.id)
-    user.set("hidden", false)
+    user.set("hidden", true)
     await user.save(null, { useMasterKey: true })
     logger.info("New user updated!")
   },
@@ -103,6 +103,10 @@ Moralis.Cloud.define(
     const logger = Moralis.Cloud.getLogger()
     let { folderId } = req.params
 
+    let matchCondition
+    if (req.user.attributes.hidden) matchCondition = { $match: { parent: folderId } }
+    else matchCondition = { $match: { parent: folderId, hidden: false } }
+
     logger.info("Fetching content!")
     const query = new Moralis.Query("Folder")
     const res = await query.aggregate([
@@ -156,8 +160,7 @@ Moralis.Cloud.define(
       {
         lookup: {
           from: "Folder",
-          localField: "_id",
-          foreignField: "parent",
+          pipeline: [matchCondition],
           as: "folders",
         },
       },
@@ -165,8 +168,7 @@ Moralis.Cloud.define(
       {
         lookup: {
           from: "File",
-          localField: "_id",
-          foreignField: "parent",
+          pipeline: [matchCondition],
           as: "files",
         },
       },
@@ -228,11 +230,15 @@ Moralis.Cloud.define(
     const logger = Moralis.Cloud.getLogger()
     let { fileName } = req.params
 
+    let matchCondition
+    if (req.user.attributes.hidden) matchCondition = { match: { user: req.user.id, $text: { $search: fileName } } }
+    else matchCondition = { match: { user: req.user.id, hidden: false, $text: { $search: fileName } } }
+
     logger.info("Fetching files!")
     const query = new Moralis.Query("File")
     const res = await query.aggregate([
       // get all files of user matching query string
-      { match: { user: req.user.id, $text: { $search: fileName } } },
+      matchCondition,
       // select required fields
       {
         project: {
