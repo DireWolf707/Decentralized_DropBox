@@ -17,6 +17,7 @@ Moralis.Cloud.define(
     rootFolder.set("ancestors", [])
     rootFolder.set("parent", null)
     rootFolder.set("user", req.user.id)
+    rootFolder.set("hidden", false)
     await rootFolder.save()
     logger.info("Root folder created!")
 
@@ -26,6 +27,7 @@ Moralis.Cloud.define(
     user.setUsername(username)
     user.set("storageAPI", storageAPI)
     user.set("rootFolderId", rootFolder.id)
+    user.set("hidden", false)
     await user.save(null, { useMasterKey: true })
     logger.info("New user updated!")
   },
@@ -52,6 +54,7 @@ Moralis.Cloud.define(
     folder.set("parent", parentFolder.id) // same as parentId
     folder.set("ancestors", [...parentFolder.attributes.ancestors, parentFolder.id])
     folder.set("user", req.user.id)
+    folder.set("hidden", false)
     await folder.save()
     logger.info("New folder created!")
   },
@@ -84,6 +87,7 @@ Moralis.Cloud.define(
     file.set("favourite", false)
     file.set("parent", parentFolder.id) // same as parentId
     file.set("user", req.user.id)
+    file.set("hidden", false)
     await file.save()
     logger.info("New file created!")
   },
