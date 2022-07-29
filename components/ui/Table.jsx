@@ -25,7 +25,19 @@ const Table = () => {
 
   const { fetchContent, loading: contentLoading } = getContent()
 
-  const fetchCurrFolder = useCallback(async () => setData(await fetchContent(folderId)), [folderId])
+  const fetchCurrFolder = useCallback(async () => {
+    let _data = await fetchContent(folderId)
+    _data = {
+      currFolder: {
+        _id: _data.objectId,
+        name: _data.name,
+      },
+      tableData: [..._data.folders, ..._data.files],
+      ancestors: _data.ancestors,
+    }
+    
+    setData(_data)
+  }, [folderId])
 
   useEffect(() => {
     fetchCurrFolder()
@@ -113,8 +125,8 @@ const Table = () => {
       {data && (
         <DataTable
           columns={columns}
-          data={[...data.folders, ...data.files]}
-          title={<Header ancestors={data.ancestors} setFolderId={setFolderId} currFolder={{ _id: data.objectId, name: data.name }} />}
+          data={data.tableData}
+          title={<Header ancestors={data.ancestors} setFolderId={setFolderId} currFolder={data.currFolder} />}
           noDataComponent={<NoData />}
           persistTableHead={true}
           fixedHeader={true}
