@@ -230,15 +230,18 @@ Moralis.Cloud.define(
     const logger = Moralis.Cloud.getLogger()
     let { fileName } = req.params
 
-    let matchCondition
-    if (req.user.attributes.hidden) matchCondition = { match: { user: req.user.id, $text: { $search: fileName } } }
-    else matchCondition = { match: { user: req.user.id, hidden: false, $text: { $search: fileName } } }
+    let fileMatchCondition, folderMatchCondition
+    if (req.user.attributes.hidden) fileMatchCondition = { match: { user: req.user.id, $text: { $search: fileName } } }
+    else fileMatchCondition = { match: { user: req.user.id, hidden: false, $text: { $search: fileName } } }
+
+    if (req.user.attributes.hidden) folderMatchCondition = { $match: { $expr: { $eq: ["$_id", "$$parentFolderId"] } } }
+    else folderMatchCondition = { $match: { $expr: { $and: [{ $eq: ["$_id", "$$parentFolderId"] }, { $eq: ["$hidden", false] }] } } }
 
     logger.info("Fetching files!")
     const query = new Moralis.Query("File")
     const res = await query.aggregate([
       // get all files of user matching query string
-      matchCondition,
+      fileMatchCondition,
       // select required fields
       {
         project: {
@@ -251,8 +254,8 @@ Moralis.Cloud.define(
       {
         lookup: {
           from: "Folder",
-          localField: "parent",
-          foreignField: "_id",
+          let: { parentFolderId: "$parent" },
+          pipeline: [folderMatchCondition],
           as: "parent",
         },
       },
@@ -260,6 +263,7 @@ Moralis.Cloud.define(
       {
         unwind: {
           path: "$parent",
+          preserveNullAndEmptyArrays: false, // to remove files without parent (bcaz of hidden)
         },
       },
       // select required fields
