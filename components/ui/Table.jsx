@@ -1,7 +1,6 @@
 import { useMoralis } from "react-moralis"
 import { getContent } from "../../hooks/getContent"
 import { useMemo, useCallback, useEffect, useState } from "react"
-import { DotsVerticalIcon } from "@heroicons/react/solid"
 import DataTable from "react-data-table-component"
 import Header from "../table/Header"
 import SubHeader from "../table/SubHeader"
@@ -9,6 +8,7 @@ import NoData from "../table/NoData"
 import Favourite from "../table/column/Favourite"
 import ProgressComponent from "../table/ProgressComponent"
 import Loading from "../animation/Loading"
+import Options from "../table/column/Options"
 
 const bytesToSize = (bytes) => {
   var sizes = ["Bytes", "KB", "MB", "GB", "TB"]
@@ -28,14 +28,10 @@ const Table = () => {
   const fetchCurrFolder = useCallback(async () => {
     let _data = await fetchContent(folderId)
     _data = {
-      currFolder: {
-        _id: _data.objectId,
-        name: _data.name,
-      },
+      currFolder: { _id: _data.objectId, name: _data.name },
       tableData: [..._data.folders, ..._data.files],
       ancestors: _data.ancestors,
     }
-    
     setData(_data)
   }, [folderId])
 
@@ -107,7 +103,7 @@ const Table = () => {
       // options
       {
         name: "Options",
-        selector: (row) => <DotsVerticalIcon className="h-5 w-4" role="button" />,
+        selector: (row) => <Options row={row} setData={setData} />,
         width: "100px",
         button: true,
       },
@@ -141,6 +137,7 @@ const Table = () => {
           keyField={"_id"}
           progressPending={contentLoading}
           progressComponent={<ProgressComponent />}
+          responsive={false}
 
           // noContextMenu={false}
           // contextMessage
