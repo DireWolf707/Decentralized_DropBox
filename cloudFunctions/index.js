@@ -182,12 +182,14 @@ Moralis.Cloud.define(
           "folders._id": 1,
           "folders.name": 1,
           "folders._created_at": 1,
+          "folders.hidden": 1,
           "files._id": 1,
           "files.name": 1,
           "files.type": 1,
           "files.size": 1,
           "files.cid": 1,
           "files.favourite": 1,
+          "files.hidden": 1,
           "files._created_at": 1,
         },
       },
@@ -281,6 +283,39 @@ Moralis.Cloud.define(
   },
   {
     fields: ["fileName"],
+    requireUser: true,
+  }
+)
+
+Moralis.Cloud.define(
+  "markAsHidden",
+  async (req) => {
+    const logger = Moralis.Cloud.getLogger()
+    let { id, type } = req.params
+
+    logger.info("Fetching file/folder!")
+    const query = new Moralis.Query(type)
+    query.equalTo("objectId", id)
+    query.equalTo("user", req.user.id)
+    const item = (await query.find())[0]
+    const hidden = !item.attributes.hidden
+    item.set("hidden", hidden)
+    await item.save()
+    logger.info("File/Folder marked as hidden changed !")
+    return hidden
+  },
+  {
+    fields: {
+      id: {
+        required: true,
+        type: String,
+      },
+      type: {
+        required: true,
+        type: String,
+        options: val => val === "File" || val === "Folder"
+      },
+    },
     requireUser: true,
   }
 )
