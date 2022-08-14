@@ -313,9 +313,34 @@ Moralis.Cloud.define(
       type: {
         required: true,
         type: String,
-        options: val => val === "File" || val === "Folder"
+        options: (val) => val === "File" || val === "Folder",
       },
     },
+    requireUser: true,
+  }
+)
+
+Moralis.Cloud.define(
+  "renameFolder",
+  async (req) => {
+    const logger = Moralis.Cloud.getLogger()
+    const { folderId, newFolderName } = req.params
+
+    logger.info("Renaming Folder!")
+    // getting folder from id
+    const query = new Moralis.Query("Folder")
+    query.equalTo("objectId", folderId)
+    query.equalTo("user", req.user.id)
+    const folder = (await query.find())[0]
+    // renaming folder
+    folder.set("name", newFolderName)
+    await folder.save()
+    logger.info("Folder renamed!")
+
+    return newFolderName
+  },
+  {
+    fields: ["folderId", "newFolderName"],
     requireUser: true,
   }
 )
