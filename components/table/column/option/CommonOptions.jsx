@@ -2,17 +2,16 @@ import { useState } from "react"
 import { markAsHidden } from "../../../../hooks/markAsHidden"
 import { useMoralis } from "react-moralis"
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid"
-import { Menu } from "@headlessui/react"
 
 const CommonOptions = ({ row, setData }) => {
   return (
-    <Menu.Item as="div" className="py-1.5">
-      {({ active }) => <HideOption active={active} row={row} setData={setData} />}
-    </Menu.Item>
+    <div className="py-1.5">
+      <HideOption row={row} setData={setData} />
+    </div>
   )
 }
 
-const HideOption = ({ active, row, setData }) => {
+const HideOption = ({ row, setData }) => {
   const { user } = useMoralis()
   const { changeHidden } = markAsHidden()
   const [hidden, setHidden] = useState(row.hidden)
@@ -28,7 +27,7 @@ const HideOption = ({ active, row, setData }) => {
   }
 
   return (
-    <button onClick={toggleHidden} className={`${active && "bg-teal-800"} flex items-center w-full space-x-2 px-2 py-1.5 rounded`}>
+    <button onClick={toggleHidden} className="hover:bg-teal-800 flex items-center w-full space-x-2 px-2 py-1.5 rounded">
       {hidden ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}
       <span>{hidden ? "Un-hide" : "Hide"}</span>
     </button>
