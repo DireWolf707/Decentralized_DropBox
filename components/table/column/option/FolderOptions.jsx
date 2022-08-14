@@ -2,35 +2,48 @@ import { Dialog } from "@headlessui/react"
 import { PencilIcon, XIcon } from "@heroicons/react/solid"
 import ReactDOM from "react-dom"
 import { useState } from "react"
+import { renameFolder } from "../../../../hooks/renameFolder"
 
-const FolderOptions = ({ row }) => {
+const FolderOptions = ({ row, setOptionMenuId, setData }) => {
   return (
     <div className="py-1.5">
-      <RenameOption row={row} />
+      <RenameOption row={row} setOptionMenuId={setOptionMenuId} setData={setData} />
     </div>
   )
 }
 
-const RenameOption = ({ row }) => {
+const RenameOption = ({ row, setOptionMenuId, setData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
     <>
-      <button onClick={() => setIsModalOpen(true)} className="hover:bg-teal-800 flex items-center w-full space-x-2 px-2 py-1.5 rounded">
+      <button
+        onClick={() => {
+          setIsModalOpen(true) // open modal
+          setOptionMenuId(null) // close option menu
+        }}
+        className="hover:bg-teal-800 flex items-center w-full space-x-2 px-2 py-1.5 rounded"
+      >
         <PencilIcon className="h-5 w-5" />
         <span>Rename</span>
       </button>
-      {isModalOpen && <RenameFolder isOpen={isModalOpen} setIsOpen={setIsModalOpen} row={row} />}
+      {isModalOpen && <RenameFolder isOpen={isModalOpen} setIsOpen={setIsModalOpen} row={row} setData={setData} />}
     </>
   )
 }
 
-const RenameFolder = ({ isOpen, setIsOpen, row }) => {
+const RenameFolder = ({ isOpen, setIsOpen, row, setData }) => {
   const [newName, setNewName] = useState(row.name)
+  const { renameHandler, loading } = renameFolder()
 
-  const renameFolder = async () => {
-    console.log("rename")
-    setIsOpen(false)
+  const setNewFolderName = async () => {
+    const _newName = await renameHandler(row._id, newName.trim(), setIsOpen)
+    setData((pv) => {
+      return {
+        ...pv,
+        tableData: pv.tableData.map((i) => (i._id == row._id ? { ...i, name: _newName } : i)),
+      }
+    })
   }
 
   return ReactDOM.createPortal(
@@ -56,8 +69,8 @@ const RenameFolder = ({ isOpen, setIsOpen, row }) => {
             />
             <div className="flex justify-end">
               <button
-                // disabled={}
-                onClick={renameFolder}
+                disabled={loading}
+                onClick={setNewFolderName}
                 className="bg-green-600 hover:bg-green-700 text-white disabled:bg-blue-900 px-2 py-1.5 rounded"
                 type="submit"
               >
