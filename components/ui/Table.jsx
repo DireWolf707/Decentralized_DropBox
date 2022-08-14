@@ -19,12 +19,19 @@ const bytesToSize = (bytes) => {
 
 const Table = () => {
   const { user } = useMoralis()
+  // root folder id of user (constant)
   const [rootFolderId, _] = useState(user.attributes.rootFolderId)
+  // current folder id (default to root folder id)
   const [folderId, setFolderId] = useState(rootFolderId)
-  const [data, setData] = useState()
+  // current folder data
+  const [data, setData] = useState(null)
+  // state of option menu
+  const [optionMenuId, setOptionMenuId] = useState(null);
 
+  // get content hook
   const { fetchContent, loading: contentLoading } = getContent()
 
+  // construct new function for fetching current folder on folderId change
   const fetchCurrFolder = useCallback(async () => {
     let _data = await fetchContent(folderId)
     _data = {
@@ -35,6 +42,7 @@ const Table = () => {
     setData(_data)
   }, [folderId])
 
+  // fetch current folder on folderId change
   useEffect(() => {
     fetchCurrFolder()
   }, [folderId])
@@ -103,12 +111,12 @@ const Table = () => {
       // options
       {
         name: "Options",
-        selector: (row) => <Options row={row} setData={setData} />,
+        selector: (row) => <Options row={row} setData={setData} optionMenuId={optionMenuId} setOptionMenuId={setOptionMenuId} />,
         width: "100px",
         button: true,
       },
     ],
-    []
+    [optionMenuId]
   )
 
   return (
