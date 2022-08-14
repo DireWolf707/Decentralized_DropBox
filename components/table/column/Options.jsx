@@ -19,7 +19,7 @@ const Options = ({ row, setData, optionMenuId, setOptionMenuId }) => {
         } absolute z-50 right-10 bg-teal-700 text-white divide-y divide-teal-500 w-44 rounded shadow-lg px-1.5 border border-teal-800`}
       >
         <CommonOptions row={row} setData={setData} />
-        {row.type ? <FileOptions row={row} /> : <FolderOptions row={row} setOptionMenuId={setOptionMenuId} setData={setData} />}
+        {row.type ? <FileOptions row={row} setOptionMenuId={setOptionMenuId} /> : <FolderOptions row={row} setOptionMenuId={setOptionMenuId} setData={setData} />}
       </div>
     </div>
   )
