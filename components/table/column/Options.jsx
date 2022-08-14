@@ -1,23 +1,27 @@
 import { DotsVerticalIcon } from "@heroicons/react/solid"
-import { Menu } from "@headlessui/react"
 import CommonOptions from "./option/CommonOptions"
 import FolderOptions from "./option/FolderOptions"
 import FileOptions from "./option/FileOptions"
 
-const Options = ({ row, setData }) => {
+const Options = ({ row, setData, optionMenuId, setOptionMenuId }) => {
   return (
-    <Menu>
-      <Menu.Button>
-        <DotsVerticalIcon className="h-5 w-4" role="button" />
-      </Menu.Button>
-      <Menu.Items
-        unmount={false}
-        className="absolute z-50 right-10 bg-teal-700 text-white divide-y divide-teal-500 w-44 rounded shadow-lg px-1.5"
+    <div>
+      <DotsVerticalIcon
+        onClick={() => {
+          setOptionMenuId((pv) => (pv ? (pv == row._id ? null : row._id) : row._id))
+        }}
+        className="h-5 w-4"
+        role="button"
+      />
+      <div
+        className={`${
+          row._id != optionMenuId && "hidden"
+        } absolute z-50 right-10 bg-teal-700 text-white divide-y divide-teal-500 w-44 rounded shadow-lg px-1.5 border border-teal-800`}
       >
         <CommonOptions row={row} setData={setData} />
         {row.type ? <FileOptions row={row} /> : <FolderOptions row={row} />}
-      </Menu.Items>
-    </Menu>
+      </div>
+    </div>
   )
 }
 
