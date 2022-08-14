@@ -10,7 +10,7 @@ const Panel = ({ close, folderId, fetchCurrFolder }) => {
 
   const addNewFolder = async () => {
     close()
-    await addFolder(newFolderName, folderId, fetchCurrFolder)
+    await addFolder(newFolderName.trim(), folderId, fetchCurrFolder)
   }
 
   return (
